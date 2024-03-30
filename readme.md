@@ -19,7 +19,7 @@
 
 - `refresh`: updates the state files with current state of the resources, deprecated in newer version
 
-**Core Concepts** :
+**High Level Concepts** :
 
 - There are 3 types of `providers tiers` are present:
   - Official : maintained by harshicorp
@@ -67,7 +67,7 @@ then here no information is given about security groups, so if changed manually 
   If the configurations are lost in the state file then they can be restored from the state backup file created with the state file. <br>
   **The refresh command is deprecated in newer version.**
 
-- Storing credentials securely` : to store the credentials securely particulary for AWS provider, the default location for Linux/Mac to search is
+- `Storing credentials securely` : to store the credentials securely particulary for AWS provider, the default location for Linux/Mac to search is
 
 ```
 $HOME/.aws/credentials
