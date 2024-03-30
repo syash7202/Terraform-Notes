@@ -73,3 +73,11 @@ then here no information is given about security groups, so if changed manually 
 $HOME/.aws/credentials
 $HOME/.aws/config
 ```
+
+## Section-wise Notes
+
+1. [Reading, generating & Modifying configurations][]
+2. Terraform Provisioner
+3. Terraform Modules & Workspaces
+4. Terraform State Management
+5. Terraform Security
