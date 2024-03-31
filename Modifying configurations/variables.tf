@@ -19,3 +19,8 @@ variable "type" {
 variable "tag" {
   type = list
 }
+
+variable "condition_test" {
+  type = bool
+  
+}
