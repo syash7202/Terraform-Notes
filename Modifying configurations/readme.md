@@ -206,3 +206,13 @@ resource "aws_instance" "mySQL01" {
 
 
 ```
+
+## Terraform Functions
+
+Terraform includes built-in fucntions.
+
+Generic Syntax :
+
+`function (arguement1, arguement2)`
+
+https://developer.hashicorp.com/terraform/language/functions
