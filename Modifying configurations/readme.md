@@ -173,3 +173,36 @@ resource "aws_instance" "web01" {
   }
 }
 ```
+
+## Local Values
+
+allows to use the repetitive attribute declaration to be done in one go. Also supports multiple expressions.
+
+```
+locals {
+   dev_tags = {
+       Owner = "DevOps Team"
+       service = "Pipeline"
+   }
+}
+
+resource "aws_instance" "web01" {
+  ami           = "ami-080e1f13689e07408"
+  instance_type = var.type["us-east-1"]
+  security_groups = var.sg
+  tags = {
+    Name = local.dev_tags
+  }
+}
+
+resource "aws_instance" "mySQL01" {
+  ami           = "ami-080e1f13689e07408"
+  instance_type = var.type["us-east-1"]
+  security_groups = var.sg
+  tags = {
+    Name = local.dev_tags
+  }
+}
+
+
+```
