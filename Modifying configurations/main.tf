@@ -77,23 +77,69 @@ provider "aws" {
 
 # Variable 
 # -------------------STARTS------------------------
-# creates an sg 
-resource "aws_security_group" "web01-sg" {
-  name        = "App traffic allow"
-  description = "Allow App inbound traffic"
+# # creates an sg 
+# resource "aws_security_group" "web01-sg" {
+#   name        = "App traffic allow"
+#   description = "Allow App inbound traffic"
+
+#   tags = {
+#     Name = "web01-sg"
+#   }
+# }
+
+# # creates an sg-inbound-rule
+# resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
+#   security_group_id = aws_security_group.web01-sg.id
+#   cidr_ipv4         = var.vpn_addr
+#   from_port         = var.app_port
+#   ip_protocol       = "tcp"
+#   to_port           = var.app_port
+# }
+
+# -------------------ENDS------------------------
+
+
+# Data Type
+# -------------------STARTS------------------------
+# # creates an ec2 insatnce with sg list from variables
+# resource "aws_instance" "web01" {
+#   ami           = "ami-080e1f13689e07408"
+#   instance_type = "t2.micro"
+#   security_groups = var.sg
+
+#   tags = {
+#     Name = "List Data type"
+#   }
+# }
+# -------------------ENDS------------------------
+
+
+# Fetching values from list & maps 
+# -------------------STARTS------------------------
+# # creates an ec2 insatnce with sg list from variables
+# resource "aws_instance" "web01" {
+#   ami           = "ami-080e1f13689e07408"
+#   instance_type = var.type["us-east-1"]
+#   security_groups = var.sg
+
+#   tags = {
+#     Name = var.tag[0]
+#   }
+# }
+# -------------------ENDS------------------------
+
+
+# Count & Count index
+# -------------------STARTS------------------------
+resource "aws_instance" "web01" {
+  ami           = "ami-080e1f13689e07408"
+  instance_type = var.type["us-east-1"]
+  security_groups = var.sg
+  count = 3
+# creates 3 instances as aws_instance-[0], aws_instance-[1], aws_instance-[2]
 
   tags = {
-    Name = "web01-sg"
+    Name = "ec-2_with.${count.index}"
   }
 }
-
-# creates an sg-inbound-rule
-resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4" {
-  security_group_id = aws_security_group.web01-sg.id
-  cidr_ipv4         = var.vpn_addr
-  from_port         = var.app_port
-  ip_protocol       = "tcp"
-  to_port           = var.app_port
-}
-
 # -------------------ENDS------------------------

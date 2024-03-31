@@ -7,3 +7,15 @@ variable "app_port" {
   default = "80"
   description = "port for sg-rule"
 }
+
+variable "sg" {
+    type = list
+}
+
+variable "type" {
+    type = map
+}
+
+variable "tag" {
+  type = list
+}
