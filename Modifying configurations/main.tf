@@ -147,14 +147,31 @@ provider "aws" {
 
 # Conditional expression
 # -------------------STARTS------------------------
+# resource "aws_instance" "web01" {
+#   ami           = "ami-080e1f13689e07408"
+#   instance_type = var.type["us-east-1"]
+#   security_groups = var.sg
+#   count = var.condition_test == true ? 1 : 0
+# # check for condition variable value if true 1 instance will be created if false no instance will be created
+#   tags = {
+#     Name = "ec-2"
+#   }
+# }
+# -------------------ENDS------------------------
+
+
+# Terraform functions
+# -------------------STARTS------------------------
 resource "aws_instance" "web01" {
-  ami           = "ami-080e1f13689e07408"
+  ami           = lookup(var.ami,var.region)
+  # have a map as first arguement and key as second, also thrid argument is for default key. searches for given key associated value from map
   instance_type = var.type["us-east-1"]
   security_groups = var.sg
   count = var.condition_test == true ? 1 : 0
-# check for condition variable value if true 1 instance will be created if false no instance will be created
+
   tags = {
-    Name = "ec-2"
+    Name = element(var.tags,count.index)
+  # have a list as first arguement and index as second, searches for given value associated value in list
   }
 }
 # -------------------ENDS------------------------

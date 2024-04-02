@@ -24,3 +24,16 @@ variable "condition_test" {
   type = bool
   
 }
+
+variable "region" {
+  type = string
+  
+}
+
+variable "ami" {
+  type = map
+}
+
+variable "tags" {
+  type= list
+}
