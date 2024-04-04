@@ -80,7 +80,7 @@ $HOME/.aws/config
 
 ## Section-wise Notes
 
-1. [Reading, generating & Modifying configurations][]
+1. [Reading, generating & Modifying configurations](https://github.com/syash7202/Terraform-Notes/tree/main/Modifying%20configurations)
 2. Terraform Provisioner
 3. Terraform Modules & Workspaces
 4. Terraform State Management
