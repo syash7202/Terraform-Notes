@@ -409,7 +409,7 @@ Executing that path :
 
 The `terraform output` command is used to extract the value of an output variable from the state file.
 
-Genric syntax :
+Generic syntax :
 
 `terraform ouput <attribute>`
 
@@ -429,3 +429,33 @@ terraform {
 }
 
 ```
+
+## ZipMap Function
+
+The zipmap fucntion constructs a map from a list of keys & a corresponding list of values.
+
+Generic Syntax :
+
+`zipmap(keylist, valuelist)`
+
+Exapmle :
+
+`zipmap (["a","b","c"],[1,2,3])`
+
+Output :
+
+```
+{
+  "a" = 1,
+  "b" = 2,
+  "c" = 3
+}
+```
+
+## Terraform Comments
+
+|    Type     | Description         |
+| :---------: | :------------------ |
+|      #      | single line comment |
+|     //      | single line comment |
+| /\* and \*/ | multi line comment  |
