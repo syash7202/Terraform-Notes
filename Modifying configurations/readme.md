@@ -459,3 +459,35 @@ Output :
 |      #      | single line comment |
 |     //      | single line comment |
 | /\* and \*/ | multi line comment  |
+
+## Resource Behaviour and Meta Arguments
+
+Terraform allows to include meta-argument within the resource block which allows some details of this standard rsource behaviour to be customized on a pre-resource basis.
+
+```
+resource "aws_iam_user" "test" {
+  name = "user.${count.index}"
+  count = 3
+  path = "/bin/"
+
+  tags = {
+    Name = "test"
+  }
+
+  lifecyle {
+    ignore_changes = [tags]
+  }
+}
+```
+
+The given sample code will ignore the manual changes done to theresource regarding tags.
+
+Types of Meta-Arguments :
+
+| Meta-Arguement |                                       Description                                        |
+| :------------: | :--------------------------------------------------------------------------------------: |
+|   depends_on   | handle hidden resource or module dependencies that terraform cannot automatically infer. |
+|     count      |         accepts as whole number, and create that many instances of that resource         |
+|    for_each    |   accpects map or set of strings, & create an instance for each item in the map or set   |
+|   lifecycle    |                      allows modification of the resource lifecycle                       |
+|    provider    |               specifies which provider configuration to use for a resource               |
