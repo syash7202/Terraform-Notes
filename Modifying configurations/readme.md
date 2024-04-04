@@ -115,6 +115,7 @@ Values of a single variable can be declared at multiple places, i.e in variables
 |  map   | a group of values identified as named labels; <br> {name:"Yash", age: 22}              |
 | number | integer input; 7202                                                                    |
 |  bool  | defines true or false                                                                  |
+|  set   | unordered list with duplicate values are allowed                                       |
 
 ## Count & Count Index
 
@@ -491,3 +492,58 @@ Types of Meta-Arguments :
 |    for_each    |   accpects map or set of strings, & create an instance for each item in the map or set   |
 |   lifecycle    |                      allows modification of the resource lifecycle                       |
 |    provider    |               specifies which provider configuration to use for a resource               |
+
+## Lifecycle Meta-Argument
+
+|       Argument        |                                                            Description                                                             |
+| :-------------------: | :--------------------------------------------------------------------------------------------------------------------------------: |
+| create_before_destroy |                             new replacement object is created first, & then prior object is destroyed                              |
+|    prevent_destroy    |                           reject any plan that destroys the instructure object associated with resource                            |
+|    ignore_changes     | ignore certain changes to the live resource that does not match the configuration but also when enabled doesn't update via TF also |
+| replace_triggered_by  |                                    replaces the resource when any of the refernced items change                                    |
+
+### Create Before Destroy Argument
+
+**Default Behaviour** : when TF cannot change a resource argument because of no in-place updatation due to API limitations, then TF will destroy the existing object & then create a new replacement object with the new configured arguements.
+
+example: the AMI of an ec2 instance is changed.
+
+With use of **create_before_destroy** meta-argument new replacement is created first then privious is destroyed.
+
+```
+resource "aws_iam_user" "test" {
+  name = "user.${count.index}"
+  count = 3
+  path = "/bin/"
+
+  tags = {
+    Name = "test"
+  }
+
+  lifecyle {
+    create_before_destroy = true
+  }
+}
+```
+
+### Prevent Destroy Argument
+
+With use of **prevent_destroy** meta-argument any terraform plan cannot destroy object created from that resource.
+
+**NOTE** : this doesn't prevent destroying the infrastructure if the resource block is removed from the configurations
+
+```
+resource "aws_iam_user" "test" {
+  name = "user.${count.index}"
+  count = 3
+  path = "/bin/"
+
+  tags = {
+    Name = "test"
+  }
+
+  lifecyle {
+    prevent_destroy = true
+  }
+}
+```
