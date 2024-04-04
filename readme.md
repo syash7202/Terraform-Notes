@@ -19,6 +19,10 @@
 
 - `refresh`: updates the state files with current state of the resources, deprecated in newer version
 
+- `fmt` : formats the overall Terraform configurations for better readability
+
+- `validate` : primarily checks whether a configuration is syntactically valid; checks for unsupported arrguements, undeclared variables & others
+
 **High Level Concepts** :
 
 - There are 3 types of `providers tiers` are present:

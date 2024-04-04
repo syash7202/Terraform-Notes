@@ -274,3 +274,15 @@ Once the log level has been configured, the TF_LOG_PATH environment variable can
 Customizing logs with TF_LOG_PATH in Terraform provides a simple and flexible way to manage your log output. By default, Terraform logs to stderr, which can make it difficult to keep track of the output, particularly when running multiple commands at once. By setting the TF_LOG_PATH environment variable, you can redirect Terraform's log output to a file of your choice.
 
 `$ export TF_LOG_PATH="<path>/terraform-log"`
+
+## Formatting in Terraform
+
+To improve readability of the terraform code, `terraform fmt` command is used to rewrite Terraform configurations files to take care of the overall formatting.
+
+Before fmt :
+
+![Before fmt code](image.png)
+
+After fmt :
+
+![After fmt code](image-1.png)

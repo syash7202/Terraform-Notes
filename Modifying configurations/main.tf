@@ -65,11 +65,11 @@ provider "aws" {
 
 # output "sg-attributes" {
 #     value = aws_security_group.web01-sg
-  
+
 # }
 # output "sg-description" {
 #     value = aws_security_group.web01-sg.description
-  
+
 # }
 
 # -------------------ENDS------------------------
@@ -180,18 +180,18 @@ provider "aws" {
 # -------------------STARTS------------------------
 data "aws_ami" "app_ami" {
   most_recent = true
-  owners = ["amazon"]
-# owners can be official, self or any other.
+  owners      = ["amazon"]
+  # owners can be official, self or any other.
 
-filter {
-  name = "name"
-  values = ["amzn2-ami-hvm*"]
-}
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm*"]
+  }
 }
 
 resource "aws_instance" "web01" {
-  ami           = data.aws_ami.app_ami.id
-  instance_type = var.type["us-east-1"]
+  ami             = data.aws_ami.app_ami.id
+  instance_type   = var.type["us-east-1"]
   security_groups = var.sg
 
   tags = {
