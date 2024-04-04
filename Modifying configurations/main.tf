@@ -162,16 +162,40 @@ provider "aws" {
 
 # Terraform functions
 # -------------------STARTS------------------------
+# resource "aws_instance" "web01" {
+#   ami           = lookup(var.ami,var.region)
+#   # have a map as first arguement and key as second, also thrid argument is for default key. searches for given key associated value from map
+#   instance_type = var.type["us-east-1"]
+#   security_groups = var.sg
+#   count = var.condition_test == true ? 1 : 0
+
+#   tags = {
+#     Name = element(var.tags,count.index)
+#   # have a list as first arguement and index as second, searches for given value associated value in list
+#   }
+# }
+# -------------------ENDS------------------------
+
+# Data source code
+# -------------------STARTS------------------------
+data "aws_ami" "app_ami" {
+  most_recent = true
+  owners = ["amazon"]
+# owners can be official, self or any other.
+
+filter {
+  name = "name"
+  values = ["amzn2-ami-hvm*"]
+}
+}
+
 resource "aws_instance" "web01" {
-  ami           = lookup(var.ami,var.region)
-  # have a map as first arguement and key as second, also thrid argument is for default key. searches for given key associated value from map
+  ami           = data.aws_ami.app_ami.id
   instance_type = var.type["us-east-1"]
   security_groups = var.sg
-  count = var.condition_test == true ? 1 : 0
 
   tags = {
-    Name = element(var.tags,count.index)
-  # have a list as first arguement and index as second, searches for given value associated value in list
+    Name = "test"
   }
 }
 # -------------------ENDS------------------------

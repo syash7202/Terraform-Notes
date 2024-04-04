@@ -216,3 +216,61 @@ Generic Syntax :
 `function (arguement1, arguement2)`
 
 https://developer.hashicorp.com/terraform/language/functions
+
+## Data Source code
+
+Data source code allows data to be fetched or computed for use elsewhere in Terraform configurations.
+
+For example: if we need to configure ec2 instances, then we cannot always hard code the ami, thus to fetech the lastest configurations available we need data blocks and filter to search and given precise data.
+
+```
+provider "aws" {
+  region = "us-east-1"
+}
+
+data "aws_ami" "app_ami" {
+  most_recent = true
+  owners = ["amazon"]
+# owners can be official, self or any other.
+
+filter {
+  name = "name"
+  values = ["amzn2-ami-hvm*"]
+}
+}
+
+resource "aws_instance" "web01" {
+  ami           = data.aws-ami.app.ami.id
+  instance_type = var.type["us-east-1"]
+  security_groups = var.sg
+
+  tags = {
+    Name = "test"
+  }
+}
+```
+
+**Resources for filter** : https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html
+
+## Debugging in Terraform
+
+To enable detailed logs `TF_LOG` environment variable should be enabled to following :
+
+| VALUE | DESCRIPTION                                                                                                                                  |
+| :---: | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| TRACE | provides an extremely detailed account of every step taken by Terraform                                                                      |
+| DEBUG | more advanced logging level debugging by providing a shorter, more sophisticated description of internal events compared to TRACE            |
+| INFO  | helpful for logging general, high-level messages about the execution process or providing informative instructions, similar to a README      |
+| WARN  | provides non-critical warnings in the log that may indicate errors or misconfigurations, allowing for adjustments to be made at a later time |
+| ERROR | utilized when something is severely wrong and acts as a blocker, presenting errors that prevent Terraform from continuing                    |
+
+**Enableing TF_LOG mode** : ` $ export TF_LOG="DEBUG"` <br>
+**Disable TF_LOG mode** : `"$ unset TF_LOG"`
+
+### Customize logs with TF_LOG_PATH
+
+Once the log level has been configured, the TF_LOG_PATH environment variable can be set to specify the file location for Terraform's log output.
+
+Customizing logs with TF_LOG_PATH in Terraform provides a simple and flexible way to manage your log output. By default, Terraform logs to stderr, which can make it difficult to keep track of the output, particularly when running multiple commands at once. By setting the TF_LOG_PATH environment variable, you can redirect Terraform's log output to a file of your choice.
+
+`$ export TF_LOG_PATH="<path>/terraform-log"`
