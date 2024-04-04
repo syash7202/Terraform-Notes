@@ -363,3 +363,69 @@ Sample code :
 With above command, this specific infrastructure will be destroyed over cloud and recreated with give configurations in Terraform files.
 
 Simailar functionality was provided using `terraform taint` but in version after v0.15.2 & later -replace is used.
+
+## Splat Expression
+
+Splat expression gives us list of all the attributes. [*]
+
+```
+resource "aws_iam_user" "test" {
+  name = "user.${count.index}"
+  count = 3
+  path = "/bin/"
+
+}
+
+output "arns" {
+  value = aws_iam_user.test.[*].arn
+}
+```
+
+## Terraform Graph
+
+the `terraform graph` command is used to generate a visual representation of either a configuration or execution plan.
+
+The output is in the form of DOT format, which is easily converted to an image.
+
+Sample output :
+
+![Terraform graph sample output](image-2.png)
+
+## Terraform Plan File
+
+The generated terraform plan can be saved to a specific path. This plan can than be used with terraform apply to be certain that only the changes shown in the plan are applied.
+
+Generic Syntax :
+
+`terraform plan -out = filename`
+
+**_ Just file name will generate a binary file in same directory or a proper path should be given _**
+
+Executing that path :
+
+`terraform apply <filename/path>`
+
+## Terraform Output
+
+The `terraform output` command is used to extract the value of an output variable from the state file.
+
+Genric syntax :
+
+`terraform ouput <attribute>`
+
+## Terraform Settings
+
+Terraform block to setup configuration settings for terrform like version, providers, etc
+
+```
+terraform {
+  required version = "> 0.12.0"
+  required providers {
+    mycloud = {
+      source = "mycorp/mycloud"
+      version = "~> 1.0"
+    }
+  }
+}
+
+```
