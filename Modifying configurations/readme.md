@@ -286,3 +286,55 @@ Before fmt :
 After fmt :
 
 ![After fmt code](image-1.png)
+
+## Load Order & Semantics
+
+Terraform generally loads all the configuration files within the directoy specified in alphabetical order. The files must end in either `.tf` or `.tf.json` to specify teh format that is in use.
+
+## Dynamic Blocks
+
+Dynamic block allows to dynamically construct repeatable nested blocks which is supported inside resource, data, provider & provisioner blocks.
+
+**Example** : having multiple ingress blocks for diffrent inbound rules in the same security group, one can define list of all rules and dyanmaic block which will given repeated values to each item in list.
+
+```
+variable "sg_ports" {
+  type        = list(number)
+  description = "list of ingress ports"
+  default     = [8200, 8201, 8301, 9200, 9600]
+}
+
+resource "aws_security_group" "dynamic_sg" {
+  name        = "dynamic_sg"
+  description = "Ingress for dyanamic block testing"
+
+  dynamic "ingress" {
+    for_each = var.sg_ports
+    content {
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+
+  }
+
+}
+
+```
+
+- `Iterator` : instead of having dynamic block name in content we can have a iterator value for each item
+
+```
+  dynamic "ingress" {
+    for_each = var.sg_ports
+    iterator = port
+    content {
+      from_port   = port.value
+      to_port     = port.value
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+
+```

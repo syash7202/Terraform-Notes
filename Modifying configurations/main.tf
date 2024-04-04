@@ -178,24 +178,49 @@ provider "aws" {
 
 # Data source code
 # -------------------STARTS------------------------
-data "aws_ami" "app_ami" {
-  most_recent = true
-  owners      = ["amazon"]
-  # owners can be official, self or any other.
+# data "aws_ami" "app_ami" {
+#   most_recent = true
+#   owners      = ["amazon"]
+#   # owners can be official, self or any other.
 
-  filter {
-    name   = "name"
-    values = ["amzn2-ami-hvm*"]
-  }
+#   filter {
+#     name   = "name"
+#     values = ["amzn2-ami-hvm*"]
+#   }
+# }
+
+# resource "aws_instance" "web01" {
+#   ami             = data.aws_ami.app_ami.id
+#   instance_type   = var.type["us-east-1"]
+#   security_groups = var.sg
+
+#   tags = {
+#     Name = "test"
+#   }
+# }
+# -------------------ENDS------------------------
+
+
+# Dynamic blocks
+# -------------------STARTS------------------------
+variable "sg_ports" {
+  type        = list(number)
+  description = "list of ingress ports"
+  default     = [8200, 8201, 8301, 9200, 9600]
 }
 
-resource "aws_instance" "web01" {
-  ami             = data.aws_ami.app_ami.id
-  instance_type   = var.type["us-east-1"]
-  security_groups = var.sg
+resource "aws_security_group" "dynamic_sg" {
+  name        = "dynamic_sg"
+  description = "Ingress for dyanamic block testing"
 
-  tags = {
-    Name = "test"
+  dynamic "ingress" {
+    for_each = var.sg_ports
+    content {
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
   }
 }
 # -------------------ENDS------------------------
