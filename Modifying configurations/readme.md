@@ -338,3 +338,28 @@ resource "aws_security_group" "dynamic_sg" {
   }
 
 ```
+
+## Tainting Terraform Resources
+
+The -replace option with terraform apply, forces to replace the specified resource and recreate it. Genrally done when manuall adjustments are done to infrastructure and one has to roll back.
+
+Generic Syntax : `terraform apply -replace-"aws_instance.web01"`
+
+Sample code :
+
+```
+
+ resource "aws_instance" "web01" {
+   ami           = "ami-080e1f13689e07408"
+   instance_type = "t2.micro"
+   security_groups = [aws_security_group.web01-sg.name]
+
+   tags = {
+     Name = "Test"
+   }
+ }
+```
+
+With above command, this specific infrastructure will be destroyed over cloud and recreated with give configurations in Terraform files.
+
+Simailar functionality was provided using `terraform taint` but in version after v0.15.2 & later -replace is used.
