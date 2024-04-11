@@ -83,5 +83,5 @@ $HOME/.aws/config
 1. [Reading, generating & Modifying configurations](https://github.com/syash7202/Terraform-Notes/tree/main/Modifying%20configurations)
 2. [Terraform Provisioner](https://github.com/syash7202/Terraform-Notes/tree/main/Terraform%20Provisioners)
 3. [Terraform Modules & Workspaces](https://github.com/syash7202/Terraform-Notes/tree/main/Terraform%20Modules%20%26%20Workspaces)
-4. Terraform State Management
-5. Terraform Security
+4. [Terraform State Management](https://github.com/syash7202/Terraform-Notes/tree/main/Terraform%20State%20Management)
+5. [Terraform Security](https://github.com/syash7202/Terraform-Notes/tree/main/Terraform%20Security)
